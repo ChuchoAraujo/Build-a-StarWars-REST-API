@@ -171,7 +171,7 @@ def deleteUser(users_id):
     response_body = {"msg": "borrado"}
     return jsonify(byeUser.serialize())
 
-#-------------------------- LLAMADAS DELETE --------------------------------------------#
+#-------------------------- POST FAVORITES --------------------------------------------#
 
 ### FAVORITES PLANETS
 @app.route('/favorite/planets/<int:planet_id>', methods=['POST'])
@@ -205,9 +205,25 @@ def fav_character(character_id):
     return jsonify(newCharacterFav.serialize())
 
 
+#-------------------------- DELETE FAVORITES --------------------------------------------#
 
+@app.route('/favorite/characters/<int:character_id>', methods= ['DELETE'])
+def deleteFavCharacter(character_id):
+    byeCharacter = Favorites.query.get(character_id)
+    db.session.delete(byeCharacter)
+    db.session.commit()
 
+    response_body = {"msg": "borrado"}
+    return jsonify(byeCharacter.serialize())
 
+@app.route('/favorite/planets/<int:planet_id>', methods= ['DELETE'])
+def deleteFavPlanet(planet_id):
+    byePlanetFav = Favorites.query.get(planet_id)
+    db.session.delete(byePlanetFav)
+    db.session.commit()
+
+    response_body = {"msg": "borrado"}
+    return jsonify(byePlanetFav.serialize())
 
 
 
