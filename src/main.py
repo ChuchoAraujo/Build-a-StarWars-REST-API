@@ -174,18 +174,42 @@ def deleteUser(users_id):
 #-------------------------- LLAMADAS DELETE --------------------------------------------#
 
 ### FAVORITES PLANETS
-@app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
+@app.route('/favorite/planets/<int:planet_id>', methods=['POST'])
 def fav_planet(planet_id):
     body_request = request.get_json()
 
+    user_id = body_request.get("user_id", None)
     planet_id = body_request.get("planet_id", None)
 
-    newplanetFav = Favorites()
+    newplanetFav = Favorites(user_id=user_id, planet_id=planet_id)
     db.session.add(newplanetFav)
     db.session.commit()
 
     response_body = {"msg": "Favorite add"}
-    return jsonify(response_body)
+    return jsonify(newplanetFav.serialize())
+
+
+### FAVORITES CHARACTERS
+@app.route('/favorite/characters/<int:character_id>', methods=['POST'])
+def fav_character(character_id):
+    body_request = request.get_json()
+
+    user_id = body_request.get("user_id", None)
+    character_id = body_request.get("character_id", None)
+
+    newCharacterFav = Favorites(user_id=user_id, character_id=character_id)
+    db.session.add(newCharacterFav)
+    db.session.commit()
+
+    response_body = {"msg": "Favorite add"}
+    return jsonify(newCharacterFav.serialize())
+
+
+
+
+
+
+
 
 
 
